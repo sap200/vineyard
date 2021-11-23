@@ -1,13 +1,45 @@
 syntax = "proto3";
 package sap200.vineyard.vineyard;
 
+import "vineyard/node.proto";
 // this line is used by starport scaffolding # proto/tx/import
 
 option go_package = "github.com/sap200/vineyard/x/vineyard/types";
 
 // Msg defines the Msg service.
 service Msg {
-    // this line is used by starport scaffolding # proto/tx/rpc
+      rpc CreateNode(MsgCreateNode) returns (MsgCreateNodeResponse);
+  rpc UpdateNode(MsgUpdateNode) returns (MsgUpdateNodeResponse);
+  rpc DeleteNode(MsgDeleteNode) returns (MsgDeleteNodeResponse);
+// this line is used by starport scaffolding # proto/tx/rpc
 }
+
+message MsgCreateNode {
+  string creator = 1;
+  string index = 2;
+
+  string address = 3;
+  string location = 4;
+  string bandwidth = 5;
+  string uid = 6;
+}
+message MsgCreateNodeResponse {}
+
+message MsgUpdateNode {
+  string creator = 1;
+  string index = 2;
+
+  string address = 3;
+  string location = 4;
+  string bandwidth = 5;
+  string uid = 6;
+}
+message MsgUpdateNodeResponse {}
+
+message MsgDeleteNode {
+  string creator = 1;
+  string index = 2;
+}
+message MsgDeleteNodeResponse {}
 
 // this line is used by starport scaffolding # proto/tx/message

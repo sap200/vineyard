@@ -3,13 +3,43 @@ package sap200.vineyard.vineyard;
 
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
+import "vineyard/node.proto";
 // this line is used by starport scaffolding # 1
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/sap200/vineyard/x/vineyard/types";
 
 // Query defines the gRPC querier service.
 service Query {
-    // this line is used by starport scaffolding # 2
+    // Queries a node by index.
+	rpc Node(QueryGetNodeRequest) returns (QueryGetNodeResponse) {
+		option (google.api.http).get = "/sap200/vineyard/vineyard/node/{index}";
+	}
+
+	// Queries a list of node items.
+	rpc NodeAll(QueryAllNodeRequest) returns (QueryAllNodeResponse) {
+		option (google.api.http).get = "/sap200/vineyard/vineyard/node";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+message QueryGetNodeRequest {
+	  string index = 1;
+
+}
+
+message QueryGetNodeResponse {
+	Node node = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllNodeRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllNodeResponse {
+	repeated Node node = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

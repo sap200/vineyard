@@ -11,6 +11,14 @@ import (
 
 func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
+		NodeList: []types.Node{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -19,5 +27,7 @@ func TestGenesis(t *testing.T) {
 	got := vineyard.ExportGenesis(ctx, *k)
 	require.NotNil(t, got)
 
+	require.Len(t, got.NodeList, len(genesisState.NodeList))
+	require.Subset(t, genesisState.NodeList, got.NodeList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

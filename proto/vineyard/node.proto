@@ -1,0 +1,16 @@
+syntax = "proto3";
+package sap200.vineyard.vineyard;
+
+option go_package = "github.com/sap200/vineyard/x/vineyard/types";
+
+
+
+message Node {
+  string index = 1; 
+  string address = 2; 
+  string location = 3; 
+  string bandwidth = 4; 
+  string uid = 5; 
+  string creator = 6;
+}
+

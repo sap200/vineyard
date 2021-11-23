@@ -1,11 +1,14 @@
 syntax = "proto3";
 package sap200.vineyard.vineyard;
 
+import "vineyard/node.proto";
 // this line is used by starport scaffolding # genesis/proto/import
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/sap200/vineyard/x/vineyard/types";
 
 // GenesisState defines the vineyard module's genesis state.
 message GenesisState {
-    // this line is used by starport scaffolding # genesis/proto/state
+    repeated Node nodeList = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
 }
