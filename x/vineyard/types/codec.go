@@ -11,6 +11,7 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreateNode{}, "vineyard/CreateNode", nil)
 	cdc.RegisterConcrete(&MsgUpdateNode{}, "vineyard/UpdateNode", nil)
 	cdc.RegisterConcrete(&MsgDeleteNode{}, "vineyard/DeleteNode", nil)
+	cdc.RegisterConcrete(&MsgGetCoins{}, "vineyard/GetCoins", nil)
 	// this line is used by starport scaffolding # 2
 }
 
@@ -19,6 +20,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgCreateNode{},
 		&MsgUpdateNode{},
 		&MsgDeleteNode{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgGetCoins{},
 	)
 	// this line is used by starport scaffolding # 3
 

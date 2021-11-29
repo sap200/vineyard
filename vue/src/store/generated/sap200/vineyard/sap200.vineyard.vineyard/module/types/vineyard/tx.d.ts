@@ -26,6 +26,12 @@ export interface MsgDeleteNode {
 }
 export interface MsgDeleteNodeResponse {
 }
+export interface MsgGetCoins {
+    creator: string;
+    amount: string;
+}
+export interface MsgGetCoinsResponse {
+}
 export declare const MsgCreateNode: {
     encode(message: MsgCreateNode, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgCreateNode;
@@ -68,12 +74,27 @@ export declare const MsgDeleteNodeResponse: {
     toJSON(_: MsgDeleteNodeResponse): unknown;
     fromPartial(_: DeepPartial<MsgDeleteNodeResponse>): MsgDeleteNodeResponse;
 };
+export declare const MsgGetCoins: {
+    encode(message: MsgGetCoins, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgGetCoins;
+    fromJSON(object: any): MsgGetCoins;
+    toJSON(message: MsgGetCoins): unknown;
+    fromPartial(object: DeepPartial<MsgGetCoins>): MsgGetCoins;
+};
+export declare const MsgGetCoinsResponse: {
+    encode(_: MsgGetCoinsResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgGetCoinsResponse;
+    fromJSON(_: any): MsgGetCoinsResponse;
+    toJSON(_: MsgGetCoinsResponse): unknown;
+    fromPartial(_: DeepPartial<MsgGetCoinsResponse>): MsgGetCoinsResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
     CreateNode(request: MsgCreateNode): Promise<MsgCreateNodeResponse>;
     UpdateNode(request: MsgUpdateNode): Promise<MsgUpdateNodeResponse>;
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     DeleteNode(request: MsgDeleteNode): Promise<MsgDeleteNodeResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    GetCoins(request: MsgGetCoins): Promise<MsgGetCoinsResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
@@ -81,6 +102,7 @@ export declare class MsgClientImpl implements Msg {
     CreateNode(request: MsgCreateNode): Promise<MsgCreateNodeResponse>;
     UpdateNode(request: MsgUpdateNode): Promise<MsgUpdateNodeResponse>;
     DeleteNode(request: MsgDeleteNode): Promise<MsgDeleteNodeResponse>;
+    GetCoins(request: MsgGetCoins): Promise<MsgGetCoinsResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

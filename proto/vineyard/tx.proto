@@ -11,6 +11,7 @@ service Msg {
       rpc CreateNode(MsgCreateNode) returns (MsgCreateNodeResponse);
   rpc UpdateNode(MsgUpdateNode) returns (MsgUpdateNodeResponse);
   rpc DeleteNode(MsgDeleteNode) returns (MsgDeleteNodeResponse);
+  rpc GetCoins(MsgGetCoins) returns (MsgGetCoinsResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -41,5 +42,13 @@ message MsgDeleteNode {
   string index = 2;
 }
 message MsgDeleteNodeResponse {}
+
+message MsgGetCoins {
+  string creator = 1;
+  string amount = 2;
+}
+
+message MsgGetCoinsResponse {
+}
 
 // this line is used by starport scaffolding # proto/tx/message

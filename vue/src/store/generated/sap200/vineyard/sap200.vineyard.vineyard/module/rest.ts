@@ -83,6 +83,8 @@ export type VineyardMsgCreateNodeResponse = object;
 
 export type VineyardMsgDeleteNodeResponse = object;
 
+export type VineyardMsgGetCoinsResponse = object;
+
 export type VineyardMsgUpdateNodeResponse = object;
 
 export interface VineyardNode {

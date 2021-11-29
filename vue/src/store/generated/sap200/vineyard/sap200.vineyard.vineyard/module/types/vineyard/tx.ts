@@ -32,6 +32,13 @@ export interface MsgDeleteNode {
 
 export interface MsgDeleteNodeResponse {}
 
+export interface MsgGetCoins {
+  creator: string
+  amount: string
+}
+
+export interface MsgGetCoinsResponse {}
+
 const baseMsgCreateNode: object = { creator: '', index: '', address: '', location: '', bandwidth: '', uid: '' }
 
 export const MsgCreateNode = {
@@ -498,12 +505,123 @@ export const MsgDeleteNodeResponse = {
   }
 }
 
+const baseMsgGetCoins: object = { creator: '', amount: '' }
+
+export const MsgGetCoins = {
+  encode(message: MsgGetCoins, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== '') {
+      writer.uint32(10).string(message.creator)
+    }
+    if (message.amount !== '') {
+      writer.uint32(18).string(message.amount)
+    }
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgGetCoins {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgGetCoins } as MsgGetCoins
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string()
+          break
+        case 2:
+          message.amount = reader.string()
+          break
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(object: any): MsgGetCoins {
+    const message = { ...baseMsgGetCoins } as MsgGetCoins
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator)
+    } else {
+      message.creator = ''
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = String(object.amount)
+    } else {
+      message.amount = ''
+    }
+    return message
+  },
+
+  toJSON(message: MsgGetCoins): unknown {
+    const obj: any = {}
+    message.creator !== undefined && (obj.creator = message.creator)
+    message.amount !== undefined && (obj.amount = message.amount)
+    return obj
+  },
+
+  fromPartial(object: DeepPartial<MsgGetCoins>): MsgGetCoins {
+    const message = { ...baseMsgGetCoins } as MsgGetCoins
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator
+    } else {
+      message.creator = ''
+    }
+    if (object.amount !== undefined && object.amount !== null) {
+      message.amount = object.amount
+    } else {
+      message.amount = ''
+    }
+    return message
+  }
+}
+
+const baseMsgGetCoinsResponse: object = {}
+
+export const MsgGetCoinsResponse = {
+  encode(_: MsgGetCoinsResponse, writer: Writer = Writer.create()): Writer {
+    return writer
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgGetCoinsResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input
+    let end = length === undefined ? reader.len : reader.pos + length
+    const message = { ...baseMsgGetCoinsResponse } as MsgGetCoinsResponse
+    while (reader.pos < end) {
+      const tag = reader.uint32()
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7)
+          break
+      }
+    }
+    return message
+  },
+
+  fromJSON(_: any): MsgGetCoinsResponse {
+    const message = { ...baseMsgGetCoinsResponse } as MsgGetCoinsResponse
+    return message
+  },
+
+  toJSON(_: MsgGetCoinsResponse): unknown {
+    const obj: any = {}
+    return obj
+  },
+
+  fromPartial(_: DeepPartial<MsgGetCoinsResponse>): MsgGetCoinsResponse {
+    const message = { ...baseMsgGetCoinsResponse } as MsgGetCoinsResponse
+    return message
+  }
+}
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateNode(request: MsgCreateNode): Promise<MsgCreateNodeResponse>
   UpdateNode(request: MsgUpdateNode): Promise<MsgUpdateNodeResponse>
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   DeleteNode(request: MsgDeleteNode): Promise<MsgDeleteNodeResponse>
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  GetCoins(request: MsgGetCoins): Promise<MsgGetCoinsResponse>
 }
 
 export class MsgClientImpl implements Msg {
@@ -527,6 +645,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgDeleteNode.encode(request).finish()
     const promise = this.rpc.request('sap200.vineyard.vineyard.Msg', 'DeleteNode', data)
     return promise.then((data) => MsgDeleteNodeResponse.decode(new Reader(data)))
+  }
+
+  GetCoins(request: MsgGetCoins): Promise<MsgGetCoinsResponse> {
+    const data = MsgGetCoins.encode(request).finish()
+    const promise = this.rpc.request('sap200.vineyard.vineyard.Msg', 'GetCoins', data)
+    return promise.then((data) => MsgGetCoinsResponse.decode(new Reader(data)))
   }
 }
 

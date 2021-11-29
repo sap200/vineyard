@@ -2,13 +2,15 @@
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
-import { MsgDeleteNode } from "./types/vineyard/tx";
 import { MsgCreateNode } from "./types/vineyard/tx";
+import { MsgDeleteNode } from "./types/vineyard/tx";
 import { MsgUpdateNode } from "./types/vineyard/tx";
+import { MsgGetCoins } from "./types/vineyard/tx";
 const types = [
-    ["/sap200.vineyard.vineyard.MsgDeleteNode", MsgDeleteNode],
     ["/sap200.vineyard.vineyard.MsgCreateNode", MsgCreateNode],
+    ["/sap200.vineyard.vineyard.MsgDeleteNode", MsgDeleteNode],
     ["/sap200.vineyard.vineyard.MsgUpdateNode", MsgUpdateNode],
+    ["/sap200.vineyard.vineyard.MsgGetCoins", MsgGetCoins],
 ];
 export const MissingWalletError = new Error("wallet is required");
 const registry = new Registry(types);
@@ -23,9 +25,10 @@ const txClient = async (wallet, { addr: addr } = { addr: "http://localhost:26657
     const { address } = (await wallet.getAccounts())[0];
     return {
         signAndBroadcast: (msgs, { fee, memo } = { fee: defaultFee, memo: "" }) => client.signAndBroadcast(address, msgs, fee, memo),
-        msgDeleteNode: (data) => ({ typeUrl: "/sap200.vineyard.vineyard.MsgDeleteNode", value: data }),
         msgCreateNode: (data) => ({ typeUrl: "/sap200.vineyard.vineyard.MsgCreateNode", value: data }),
+        msgDeleteNode: (data) => ({ typeUrl: "/sap200.vineyard.vineyard.MsgDeleteNode", value: data }),
         msgUpdateNode: (data) => ({ typeUrl: "/sap200.vineyard.vineyard.MsgUpdateNode", value: data }),
+        msgGetCoins: (data) => ({ typeUrl: "/sap200.vineyard.vineyard.MsgGetCoins", value: data }),
     };
 };
 const queryClient = async ({ addr: addr } = { addr: "http://localhost:1317" }) => {

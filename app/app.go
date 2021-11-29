@@ -154,6 +154,7 @@ var (
 		stakingtypes.NotBondedPoolName: {authtypes.Burner, authtypes.Staking},
 		govtypes.ModuleName:            {authtypes.Burner},
 		ibctransfertypes.ModuleName:    {authtypes.Minter, authtypes.Burner},
+		vineyardmoduletypes.ModuleName: {authtypes.Minter},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 )
@@ -347,6 +348,7 @@ func New(
 		appCodec,
 		keys[vineyardmoduletypes.StoreKey],
 		keys[vineyardmoduletypes.MemStoreKey],
+		app.BankKeeper,
 	)
 	vineyardModule := vineyardmodule.NewAppModule(appCodec, app.VineyardKeeper)
 

@@ -459,6 +459,108 @@ export const MsgDeleteNodeResponse = {
         return message;
     }
 };
+const baseMsgGetCoins = { creator: '', amount: '' };
+export const MsgGetCoins = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== '') {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.amount !== '') {
+            writer.uint32(18).string(message.amount);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgGetCoins };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.amount = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgGetCoins };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = '';
+        }
+        if (object.amount !== undefined && object.amount !== null) {
+            message.amount = String(object.amount);
+        }
+        else {
+            message.amount = '';
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.amount !== undefined && (obj.amount = message.amount);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgGetCoins };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = '';
+        }
+        if (object.amount !== undefined && object.amount !== null) {
+            message.amount = object.amount;
+        }
+        else {
+            message.amount = '';
+        }
+        return message;
+    }
+};
+const baseMsgGetCoinsResponse = {};
+export const MsgGetCoinsResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgGetCoinsResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgGetCoinsResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgGetCoinsResponse };
+        return message;
+    }
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -477,5 +579,10 @@ export class MsgClientImpl {
         const data = MsgDeleteNode.encode(request).finish();
         const promise = this.rpc.request('sap200.vineyard.vineyard.Msg', 'DeleteNode', data);
         return promise.then((data) => MsgDeleteNodeResponse.decode(new Reader(data)));
+    }
+    GetCoins(request) {
+        const data = MsgGetCoins.encode(request).finish();
+        const promise = this.rpc.request('sap200.vineyard.vineyard.Msg', 'GetCoins', data);
+        return promise.then((data) => MsgGetCoinsResponse.decode(new Reader(data)));
     }
 }

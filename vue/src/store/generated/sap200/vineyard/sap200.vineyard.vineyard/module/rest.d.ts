@@ -61,6 +61,7 @@ export interface V1Beta1PageResponse {
 }
 export declare type VineyardMsgCreateNodeResponse = object;
 export declare type VineyardMsgDeleteNodeResponse = object;
+export declare type VineyardMsgGetCoinsResponse = object;
 export declare type VineyardMsgUpdateNodeResponse = object;
 export interface VineyardNode {
     index?: string;

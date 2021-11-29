@@ -19997,6 +19997,8 @@ definitions:
     type: object
   sap200.vineyard.vineyard.MsgDeleteNodeResponse:
     type: object
+  sap200.vineyard.vineyard.MsgGetCoinsResponse:
+    type: object
   sap200.vineyard.vineyard.MsgUpdateNodeResponse:
     type: object
   sap200.vineyard.vineyard.Node:
